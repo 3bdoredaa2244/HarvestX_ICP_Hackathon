@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HarvestX - Decentralized Marketplace</title>
+
+  <!-- Tailwind CSS CDN - This gives us all the styling! -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional: Configure Tailwind theme to match your brand -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'harvest-gold': '#f59e0b',
+            'harvest-green': '#16a34a',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
