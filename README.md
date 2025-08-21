@@ -4,7 +4,7 @@
 
 The project consists of:
 
-* **Backend**: Motoko canister handling data storage, user interactions, and business logic.
+* **Backend**: Rust canister handling data storage, user interactions, and business logic.
 * **Frontend**: React-based UI for interacting with the canister in a user-friendly way.
 
 ---
