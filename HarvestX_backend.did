@@ -1,0 +1,177 @@
+type ApiResponse = record {
+  data : opt InvestmentOffer;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_1 = record {
+  data : opt InvestmentRequest;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_2 = record {
+  data : opt vec UserProfile;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_3 = record {
+  data : opt vec InvestmentOffer;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_4 = record {
+  data : opt opt UserProfile;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_5 = record {
+  data : opt vec Transaction;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_6 = record {
+  data : opt vec InvestmentRequest;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_7 = record {
+  data : opt opt InvestmentOffer;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_8 = record {
+  data : opt PlatformStats;
+  error : opt text;
+  success : bool;
+};
+type ApiResponse_9 = record {
+  data : opt UserProfile;
+  error : opt text;
+  success : bool;
+};
+type CreateInvestmentRequest = record {
+  offer_id : text;
+  message : text;
+  offered_price_per_kg : float64;
+  requested_quantity : nat64;
+};
+type CreateOfferRequest = record {
+  total_quantity : nat64;
+  minimum_investment : nat64;
+  description : text;
+  quality_grade : QualityGrade;
+  product_name : text;
+  product_type : ProductType;
+  price_per_kg : float64;
+  location : text;
+  harvest_date : text;
+};
+type InvestmentOffer = record {
+  id : text;
+  status : OfferStatus;
+  updated_at : nat64;
+  total_quantity : nat64;
+  minimum_investment : nat64;
+  description : text;
+  created_at : nat64;
+  quality_grade : QualityGrade;
+  product_name : text;
+  product_type : ProductType;
+  available_quantity : nat64;
+  price_per_kg : float64;
+  location : text;
+  farmer : principal;
+  harvest_date : text;
+};
+type InvestmentRequest = record {
+  id : text;
+  status : RequestStatus;
+  updated_at : nat64;
+  total_offered : float64;
+  created_at : nat64;
+  offer_id : text;
+  message : text;
+  offered_price_per_kg : float64;
+  requested_quantity : nat64;
+  expires_at : nat64;
+  investor : principal;
+};
+type OfferStatus = variant { Active; Cancelled; Completed; Expired };
+type PlatformStats = record {
+  total_requests : nat64;
+  total_users : nat64;
+  total_transactions : nat64;
+  total_offers : nat64;
+  active_offers : nat64;
+};
+type ProductType = variant {
+  Nuts;
+  Grains;
+  Legumes;
+  Herbs;
+  Vegetables;
+  Other : text;
+  Fruits;
+};
+type QualityGrade = variant {
+  Premium;
+  Grade1;
+  Grade2;
+  Certified : text;
+  Standard;
+  Organic;
+};
+type RegisterUserRequest = record {
+  role : UserRole;
+  email : text;
+  display_name : text;
+};
+type RequestStatus = variant {
+  Rejected;
+  Accepted;
+  Cancelled;
+  Expired;
+  Pending;
+};
+type RespondToRequestRequest = record { request_id : text; accept : bool };
+type Transaction = record {
+  id : text;
+  request_id : text;
+  status : TransactionStatus;
+  updated_at : nat64;
+  tokenized_at : opt nat64;
+  total_amount : float64;
+  created_at : nat64;
+  offer_id : text;
+  quantity : nat64;
+  price_per_kg : float64;
+  farmer : principal;
+  investor : principal;
+};
+type TransactionStatus = variant { Tokenized; Confirmed; Completed };
+type UserProfile = record {
+  updated_at : nat64;
+  "principal" : principal;
+  role : UserRole;
+  created_at : nat64;
+  email : text;
+  display_name : text;
+};
+type UserRole = variant { Farmer; Guest; Admin; Investor };
+service : {
+  create_agricultural_offer : (CreateOfferRequest) -> (ApiResponse);
+  create_investment_request : (CreateInvestmentRequest) -> (ApiResponse_1);
+  get_all_users : () -> (ApiResponse_2) query;
+  get_available_offers : () -> (ApiResponse_3) query;
+  get_current_user : () -> (ApiResponse_4) query;
+  get_farmer_offers : () -> (ApiResponse_3) query;
+  get_farmer_transactions : () -> (ApiResponse_5) query;
+  get_investor_requests : () -> (ApiResponse_6) query;
+  get_investor_transactions : () -> (ApiResponse_5) query;
+  get_offer_by_id : (text) -> (ApiResponse_7) query;
+  get_platform_stats : () -> (ApiResponse_8) query;
+  get_requests_for_offer : (text) -> (ApiResponse_6) query;
+  health_check : () -> (text) query;
+  register_user : (RegisterUserRequest) -> (ApiResponse_9);
+  respond_to_investment_request : (RespondToRequestRequest) -> (ApiResponse_1);
+  update_user_role : (principal, UserRole) -> (ApiResponse_9);
+}

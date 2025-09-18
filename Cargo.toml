@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "src/HarvestX_backend"
+]
+resolver = "2"
