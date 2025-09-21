@@ -1,39 +1,32 @@
 {
   "canisters": {
-    "HarvestX_backend": {
-      "candid": "HarvestX_backend.did",
-      "package": "HarvestX_backend",
+    "harvestx_backend": {
       "type": "rust",
-      "build": "cargo build --release --target wasm32-unknown-unknown",
-      "post_build": "candid-extractor target/wasm32-unknown-unknown/release/harvestx_backend.wasm > HarvestX_backend.did"
+      "package": "harvestx_backend",
+      "candid": "src/HarvestX_backend/harvestx_backend.did"
     },
-    "HarvestX_frontend": {
+    "harvestx_frontend": {
       "type": "assets",
       "source": [
         "src/HarvestX_frontend/dist"
       ],
-      "build": [
-        "npm run build"
-      ]
-    },
-    "internet_identity": {
-      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
-      "frontend": {},
-      "remote": {
-        "id": {
-          "ic": "rdmx6-jaaaa-aaaaa-aaadq-cai"
-        }
-      },
-      "type": "custom",
-      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz"
+      "candid": "src/HarvestX_backend/harvestx_backend.did"
     }
   },
   "defaults": {
     "build": {
-      "args": "",
-      "packtool": ""
+      "packtool": "cargo"
     }
   },
-  "output_env_file": ".env",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:4943",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "providers": ["https://ic0.app"],
+      "type": "persistent"
+    }
+  },
   "version": 1
 }

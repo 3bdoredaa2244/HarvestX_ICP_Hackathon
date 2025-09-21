@@ -48,6 +48,12 @@ type ApiResponse_9 = record {
   error : opt text;
   success : bool;
 };
+type ApiResponse_10 = record {
+  data : opt DepositInfo;
+  error : opt text;
+  success : bool;
+};
+
 type CreateInvestmentRequest = record {
   offer_id : text;
   message : text;
@@ -150,13 +156,36 @@ type Transaction = record {
 type TransactionStatus = variant { Tokenized; Confirmed; Completed };
 type UserProfile = record {
   updated_at : nat64;
-  "principal" : principal;
+  principal : principal;
   role : UserRole;
   created_at : nat64;
   email : text;
   display_name : text;
 };
 type UserRole = variant { Farmer; Guest; Admin; Investor };
+
+# ---------- NEW TYPES ----------
+type BatchMetadata = record {
+  product_name : text;
+  product_type : ProductType;
+  quality_grade : QualityGrade;
+  location : text;
+  harvest_date : text;
+  total_quantity : nat64;
+  additional : opt text;
+};
+type BatchNFT = record {
+  id : text;
+  owner : principal;
+  metadata : BatchMetadata;
+  minted_at : nat64;
+};
+type DepositInfo = record {
+  escrow_canister : principal;
+  subaccount_hex : text;
+  expected_amount_e8s : nat128;
+};
+
 service : {
   create_agricultural_offer : (CreateOfferRequest) -> (ApiResponse);
   create_investment_request : (CreateInvestmentRequest) -> (ApiResponse_1);
@@ -174,4 +203,8 @@ service : {
   register_user : (RegisterUserRequest) -> (ApiResponse_9);
   respond_to_investment_request : (RespondToRequestRequest) -> (ApiResponse_1);
   update_user_role : (principal, UserRole) -> (ApiResponse_9);
+
+  # NEW escrow/tokenization APIs
+  get_deposit_info : (text) -> (ApiResponse_10) query;   # request_id -> DepositInfo
+  settle_request : (text) -> (ApiResponse_1);            # request_id -> verify deposit + mint shares
 }

@@ -3,17 +3,6 @@
 version = 4
 
 [[package]]
-name = "HarvestX_backend"
-version = "0.1.0"
-dependencies = [
- "candid",
- "ic-cdk",
- "ic-cdk-macros 0.9.0",
- "ic-stable-structures",
- "serde",
-]
-
-[[package]]
 name = "anyhow"
 version = "1.0.99"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -177,6 +166,19 @@ checksum = "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a"
 dependencies = [
  "typenum",
  "version_check",
+]
+
+[[package]]
+name = "harvestx_backend"
+version = "0.1.0"
+dependencies = [
+ "candid",
+ "hex",
+ "ic-cdk",
+ "ic-cdk-macros 0.9.0",
+ "ic-stable-structures",
+ "serde",
+ "sha2",
 ]
 
 [[package]]
